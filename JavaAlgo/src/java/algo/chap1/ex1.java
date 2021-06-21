@@ -18,6 +18,5 @@ public class ex1 {
         }else{
             return b;
         }
-
     }
 }
