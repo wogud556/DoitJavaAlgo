@@ -1,4 +1,4 @@
-package java.algo.chap1;
+package data.algo.chap1;
 
 import java.util.Scanner;
 
@@ -121,6 +121,7 @@ public class pl1_2 {
 
         }
     }
+
 
     public static void main(String args[]){
     }

@@ -1,4 +1,4 @@
-package java.algo.chap1;
+package data.algo.chap1;
 
 public class pl1_1 {
     static int max4(int a, int b, int c, int d){ //Q1

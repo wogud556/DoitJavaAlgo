@@ -1,4 +1,4 @@
-package java.algo.chap1;
+package data.algo.chap1;
 
 import java.util.Scanner;
 
@@ -56,8 +56,33 @@ public class ex1_2 {
         System.out.println("1부터 " + n + "까지의 합은 " + sum + "입니다.");
     }
 
+    public static void ex1c_2(){
+        Scanner stdIn = new Scanner(System.in);
+        int n;
+
+        System.out.println("2자리 정수를 입력하세요");
+
+        do{
+            System.out.println("n의 값 : ");
+            n = stdIn.nextInt();
+        }while(n < 10 || n > 99);
+
+        System.out.println("변수 no의 값은");
+    }
+
+    public static void ex1_7(){
+        System.out.println("----- 곱셈표 -----");
+
+        for(int i =0; i<= 9; i++){
+            for(int j = 1; j<= 9; j++){
+                System.out.printf("%3d", i * j);
+            }
+            System.out.println();
+
+        }
+    }
+
     public static void main(String args[]){
-
-
+        ex1_7();
     }
 }
