@@ -1,6 +1,6 @@
 package java.algo.chap1;
 
-public class pl1 {
+public class pl1_1 {
     static int max4(int a, int b, int c, int d){ //Q1
         int max = 0;
         if(a >= max){

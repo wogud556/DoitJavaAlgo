@@ -1,6 +1,6 @@
 package java.algo.chap1;
 
-public class ex1 {
+public class ex1_1 {
     static int mid3(int a, int b, int c){//중간값을 구하는 함수
 
         if(a>=b){
