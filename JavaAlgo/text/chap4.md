@@ -136,3 +136,167 @@ public int peek() throws EmtyStackException{
 - 프로그램 예는 실습 4-2와 같다.
 
 ### 실습 4-2
+---
+## 큐
+
+- 큐는 스택과 마찬가지로 데이터를 일시적으로 쌓아 놓은 자료구조이다.
+- 대신에 가장 먼저 넣은 데이터를 가장 먼저 꺼내는 선입 선출인 점이 스택과 다르다.
+
+### 큐
+- 큐는 스택과 마찬가지로 데이터를 일시적으로 쌓아두기 위한 자료구조이다.
+- 스택과 다르게 선입 선출 구조로 되어있다. 예시로 은행 창구 대기열이나 마트 계산대를 생각하면 된다.
+- 큐에 데이터를 넣는 작업을 인큐(enqueue)라고 하고, 데이터를 꺼내는 작업을 디큐(dequeue)라고 한다.
+- 또 데이터를 꺼내는 쪽을 프론트(front)라 하고, 데이터를 넣는 쪽을 리어(rear)라고 한다.
+
+### 배열로 큐 만들기
+- 스택과 마찬가지로 큐는 배열을 사용하여 구현할 수 있다.
+
+### 인큐
+- 삽입이다. 배열에 요소에 다음인덱스로 값을 저장한다.
+- 이때 복잡도는 O(1)이다.
+
+### 디큐
+- 삭제(인출)이다.que[0]에 저장된 값을 꺼낸 다음 두번째 이후 요소를 모두 맨 앞으로 옮긴다. 이때 복잡도는O{n}이되는데 데이터를 꺼낼때마다 이런 처리를 하게 되면 효율이 떨어진다.
+
+### 연습문제
+
+### 링 버퍼로 큐 만들기
+- 링 버퍼를 이용하여 배열 요소를 앞쪽에 옮기지 않아도 되는 큐를 만들어보자
+- 링버퍼는 배열이 처음과 끝이 연결이 되어있는 자료구조이다.
+- 여기서 논리적으로 어떤 요소가 첫번째 요소이고 어떤 요소가 마지막 요소인지 식별하기 위한 변수가 프런트와 리어이다.
+    - 프런트 : 맨 처음 요소의 인덱스
+    - 리어 : 맨 끝 요소의 하나 뒤의 인덱스(다음 요소를 인큐할 위치를 미리 지정)
+- 인큐 수행 시 프런트는 그대로 리어만 1증가하면서 해당 인덱스의 데이터를 추가한다.
+- 디큐 수행 시 리어가 그대로 프론트만 1 감소하면서 해당 인덱스의 데이터를 삭제한다.
+
+### 실습 4-3[A]
+
+### 큐 클래스 IntQueue
+- 큐를 관리하는 클래스로, 아래와 같이 5개의 필드로 구성
+  1. 큐로 사용할 배열(que)
+       - 인큐하는 데이터를 저장하기 위한 큐 본체용 배열
+       - 필드 que는 실제로는 배열 본체가 안니라 본체를 참조하는 배열 변수이다.
+  2. 큐의 최대 용량
+       - 큐의 최대 용량을 저장하는 필드로, 이 값은 배열 que에 저장할 수 있는 최대 요소와 갯수와 같다.
+  3. 프런트
+       - 인큐하는 데이터 가운데 첫번째 요소의 인덱스를 저장하는 필드. 
+  4. 리어(rear)
+       - 인큐한 데이터 가운데 맨 나중에 넣은 요소의 하나 뒤의 인덱스를 저장하는 필드
+  5. 현재 데이터 수
+       - 큐에 쌓아놓은 데이터 수를 나타내는 필드. 
+       - front 와 rear의 값이 같은 경우 큐가 비어 있는지, 가득 찼는지 구별을할 수 없는 상황을 피하기 위해 변수가 필요하다.
+        - 큐가 비어있을 때 num은 0이고, 가득 찼을 떄는 num과 max의 값이 같다.
+### 생성자 InQueue
+- 생성자는 큐 본체용 배열을 생성하는 등의 준비 작업을 수행.
+- 생성 시 큐는 비어 있기 떄문에 num, front, rear값을 모두 0으로 한다. 또 매개변수 capacity로 전달받은 큐의 용량을 필드 max에 복사하고 요솟수가 max인 배열 que의 본체를 생성한다.
+
+### 실습 4-3 예제코드
+```
+public int enque(int x) throws OverflowIntQueueException{
+    if(num >= max)
+        throw new OverflowIntQueueException();
+    que[rear++] = x;
+    num ++;
+    if(rear == max)
+        rear = 0;
+    return x;
+}
+```
+
+### 인큐 메서드
+- 큐에 데이터를 인큐하는 메서드이다.
+- 인큐에 성공하면 인큐한 값 그대로 반환한다.
+- 그러나 큐가 가득 차서 인큐할 수 없으면(num > max가 성립하면) 예외 OverFlowIntQueueException을 던진다.
+
+### 실습 4-3 예제코드
+```
+public int deque() throws EmptyIntQueueException{
+    if(num <= 0)
+        throw new EmptyIntQueueException();
+    int x = que[front++];
+    num --;
+    if(front == max)
+        front = 0;
+    return x;
+}
+```
+### 디큐 메서드 deque
+  - 큐에서 데이터를 디큐하고 그 값을 반환하는 메서드이다.
+  - 그러나 큐가 비어 있어 디큐할 수 없으면(num <= 0이 성립하면)
+  예외 EmptyIntQueueException을 던진다.
+
+### 실습 4-3 예제코드
+```
+public int peek() throws EmptyIntQueueException {
+        if (num <= 0)
+            throw new EmptyIntQueueException();
+        return que[front];
+    }
+
+    public int indexOf(int x){
+        for(int i=0 ; i < num ; i++){
+            int idx = (i+ front) % max;
+            if(que[idx] == x)
+                return  idx;
+        }
+        return -1;
+    }
+
+    public void clear(){
+        num = front = rear = 0;
+    }
+
+    public int capacity(){
+        return max;
+    }
+
+    public int size(){
+        return num;
+    }
+
+    public boolean isEmpty(){
+        return num <= 0;
+    }
+    public boolean isFull(){
+        return num >= max;
+    }
+
+    public void dump(){
+        if(num <= 0)
+            System.out.println("큐가 비어 있습니다.");
+        else{
+            for(int i = 0; i < num; i++)
+                System.out.println(que[(i + front) % max] + " ");
+            System.out.println();
+        }
+    }
+``` 
+### 피크 메서드 peek
+- 맨 앞의 데이터(디큐에서 꺼낼 데이터)를 '몰래 엿보는' 메서드이다.
+- que[front]의 값을 조사만 하고 데이터를 꺼내지는 않으므로 front, rear, num의 값이 변화하지 않는다.
+- 큐가 비어 있으면 예외 EmptyIntQueueException을 던진다(throw)
+
+### 검색 메서드 indexOf
+- 큐의 배열에서 x와 같은 데이터가 저자오디어 있는 위치를 알아내는 메서드이다.
+- 스캔의 시작은 배열의 첫 요소가 아니라, 큐의 첫 요소 즉 프런트이다.
+- 그래서 스캔 시 주목하는 인덱스 idx의 계산이 (i+front) % max로 복잡해진다.
+- 검색에 성공하면 찾은 요소의 인덱스를 반환하고 실패하면  -1을 반환한다.
+
+### 모든 데이터를 삭제하는 메서드 clear
+- 현재 큐의 모든 데이터를 삭제하는 메서드이다
+
+### 최대 용량을 확인하는 메서드 capacity
+- 큐의 최대 용량을 반환하는 메서드이다.
+
+### 데이터 수를 확인하는 메서드 size
+- 현재 큐의 데이터 수를 반환하는 메서드이다
+
+### 큐가 비어 있는지 판단하는 메서드 IsEmpty
+- 큐가 비어 있는지 판단하는 메서드이다. 비어있으면 true, 그렇지 않으면 false를 반환한다.
+
+### 큐가 가득 찼는지 판단하는 메서드 IsFull
+- 큐가 가득 찼는지 판단하는 메서드이다. 가득 찼으면 true, 그렇지 않으면 false를 반환한다.
+
+### 모든 데이터를 출력하는 메서드 dump
+- 큐에 인큐된 모든(num개) 데이터르르 프런트에서 리어 순으로 출력하는 메서드이다.
+- 큐가 비어있으면 큐가 비어있습니다 라고 표시한다.
