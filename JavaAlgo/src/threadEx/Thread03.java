@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 public class Thread03 {
 
-
+//
     public static void main(String[] args){
        Thread thread0 = new Thread(new ThreadWithRunnableMulti());
        thread0.start();
